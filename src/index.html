@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Generator Hashtagów</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container d-flex h-100">
+        <div class="row justify-content-center align-self-center w-100">
+            <div class="col-12 text-center">
+                <h1 class="mb-4">Instagram Hashtag Generator <i class="fas fa-hashtag"></i></h1>
+                <p class="mb-4">Wgraj swój obrazek, a my wygenerujemy dla Ciebie najlepsze hashtagi.</p>
+                <div id="buttonContainer">
+                    <button id="uploadButton" class="btn btn-primary mb-4">Wgraj obrazek</button>
+                    <button id="copyButton" class="btn btn-secondary mb-4 d-none">Kopiuj hashtagi</button>
+                </div>
+                <input type="file" id="imageInput" accept="image/*" class="d-none">
+                <div id="imagePreview" class="d-none text-center polaroid">
+                    <img id="uploadedImage" src="" alt="Uploaded Image" class="img-fluid mb-3">
+                    <div class="loader d-none" id="loader"></div>
+                    <div id="hashtags" class="d-none mt-3"></div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+    <script src="scripts.js"></script>
+</body>
+</html>
