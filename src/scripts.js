@@ -17,14 +17,15 @@ document.addEventListener('DOMContentLoaded', function() {
             const reader = new FileReader();
             reader.onload = function(e) {
                 uploadedImage.src = e.target.result;
-                imagePreview.classList.remove('d-none');
-                loader.classList.remove('d-none');
-                hashtags.classList.add('d-none');
-                copyButton.classList.add('d-none');
+                loader.classList.remove('hidden');
+                imagePreview.classList.add('hidden');
+                hashtags.classList.add('hidden');
+                copyButton.classList.add('hidden');
                 setTimeout(function() {
-                    loader.classList.add('d-none');
-                    hashtags.classList.remove('d-none');
-                    copyButton.classList.remove('d-none');
+                    loader.classList.add('hidden');
+                    imagePreview.classList.remove('hidden');
+                    hashtags.classList.remove('hidden');
+                    copyButton.classList.remove('hidden');
                     generateHashtags();
                 }, 2000); // Symulacja ładowania
             };
@@ -35,9 +36,9 @@ document.addEventListener('DOMContentLoaded', function() {
     copyButton.addEventListener('click', function() {
         const hashtagsText = hashtags.textContent;
         navigator.clipboard.writeText(hashtagsText).then(function() {
-            alert('Hashtagi skopiowane do schowka!');
+            alert('Hashtags coppied to clipboard!');
         }, function(err) {
-            alert('Błąd kopiowania hashtagów: ', err);
+            alert('Error on copying hashtags: ', err);
         });
     });
 
