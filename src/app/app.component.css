@@ -2,14 +2,6 @@
 @tailwind components;
 @tailwind utilities;
 
-.body {
-    @apply bg-neutral-100
-}
-
-.container {
-    @apply w-1/2 mx-auto
-}
-
 .section {
     @apply flex flex-col min-h-screen justify-center items-center text-center
 }
