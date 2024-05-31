@@ -4,7 +4,7 @@
   <p class="paragraph">Upload image and generate the best hashtags for your photo!</p>
 
   <div class="btn-container">
-      <input #imageInput (change)="onUploadInputChange($event) "type="file" accept="image/*" class="hidden">
+      <input #imageInput (change)="onUploadInputChange($event) "type="file" accept="image/*" [hidden]="true">
       <button (click)="imageInput.click()" class="btn-primary"> Upload image</button>
       <button class="btn-secondary" (click)="onCopyHashtagsButtonClick()" *ngIf="(imageHashtags$ | async) != undefined">Copy hashtags</button>
   </div>
