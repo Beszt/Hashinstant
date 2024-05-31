@@ -8,14 +8,18 @@
 
 .header {
     @apply text-4xl text-blue-500 font-sans font-medium tracking-wider
-} 
+}
+
+.header-ai {
+    @apply py-0.5 px-1.5 border-2 border-dashed border-blue-400 rounded-lg
+}
 
 .paragraph {
-    @apply p-3 font-light
+    @apply p-2.5 font-light
 }
 
 .btn-container {
-    @apply my-3
+    @apply my-2.5
 }
 
 .btn-primary {
@@ -23,5 +27,5 @@
 }
 
 .btn-secondary {
-    @apply py-3 px-5 bg-slate-500 transition ease-in-out delay-100 shadow-md hover:bg-slate-700 active:outline active:outline-4 active:outline-slate-300  text-white rounded-md
+    @apply m-2 py-3 px-5 bg-slate-500 transition ease-in-out delay-100 shadow-md hover:bg-slate-700 active:outline active:outline-4 active:outline-slate-300  text-white rounded-md
 }

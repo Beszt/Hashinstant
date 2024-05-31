@@ -28,6 +28,7 @@ export class AppComponent {
     if (file) {
       this.store
         .dispatch(new SetImage(file))
+        .pipe(delay(2000))
         .subscribe(() => {
           this.store.dispatch(new GenerateHashtags());
         });
