@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { ChangeDetectionStrategy, Component } from '@angular/core';
 import { Image } from '../shared/models/Image';
 import { CommonModule } from '@angular/common';
 import { Select } from '@ngxs/store';
@@ -11,11 +11,12 @@ import { Observable } from 'rxjs';
   imports: [CommonModule],
   templateUrl: './image-box.component.html',
   styleUrl: './image-box.component.css',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImgBoxComponent {
   @Select(ImageState.getImage)
-  image$!: Observable<String | undefined>;
+  imageSrc$!: Observable<String | undefined>;
 
   @Select(ImageState.getHashtags)
-  hashtags$!: Observable<String | undefined>;
+  Imagehashtags$!: Observable<String | undefined>;
 }

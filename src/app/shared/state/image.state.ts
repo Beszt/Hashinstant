@@ -8,7 +8,7 @@ import { OpenAiService } from '../services/open-ai.service';
 @State<Image | undefined>({
   name: 'image',
   defaults: {
-    Path: undefined,
+    Src: undefined,
     Hashtags: undefined,
   },
 })
@@ -17,7 +17,7 @@ export class ImageState {
   constructor(private readonly openAiService: OpenAiService) {}
   @Selector()
   static getImage(state: Image) {
-    return state.Path;
+    return state.Src;
   }
 
   @Selector()
@@ -31,7 +31,7 @@ export class ImageState {
       const state = ctx.getState();
       ctx.setState({
         ...state,
-        Path: img,
+        Src: img,
       });
     });
   }
@@ -40,12 +40,12 @@ export class ImageState {
   generateHashtags(ctx: StateContext<Image>, action: GenerateHashtags) {
     const state = ctx.getState();
 
-    if (state.Path == undefined) {
+    if (state.Src == undefined) {
       return;
     }
 
     this.openAiService
-      .PostImageAndGetMessage(state.Path)
+      .PostImageAndGetMessage(state.Src)
       .subscribe((hashtags) => {
         ctx.setState({
           ...state,

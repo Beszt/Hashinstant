@@ -1,4 +1,4 @@
 export interface Image {
-  Path: string | undefined;
+  Src: string | undefined;
   Hashtags: string | undefined;
 }
