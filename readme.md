@@ -11,6 +11,6 @@ Live demo is available here [Hashinstant](http://hashinstant.obisoft.pl).
 - OpenAI API
 
 ## Installation
-1. Install newest **Node.JS** and **Angular CLI**
+1. Install newest **Node.JS**
 2. Duplicate `environment.ts` to `environment.dev.ts` and paste your OpenAI token to `Token` property.
-3. Type `npm install` and `ng serve`
+3. Type `npm install -g @angular/cli` `npm install --legacy-peer-deps` and `ng serve`
