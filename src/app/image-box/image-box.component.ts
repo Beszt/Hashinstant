@@ -1,14 +1,18 @@
 import { Component, Input } from '@angular/core';
-import { ImageBox } from '../shared/models/ImageBox';
+import { Image } from '../shared/models/Image';
 import { CommonModule } from '@angular/common';
+import { Select } from '@ngxs/store';
+import { ImageState } from '../shared/state/image.state';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-image-box',
   standalone: true,
   imports: [CommonModule],
   templateUrl: './image-box.component.html',
-  styleUrl: './image-box.component.css'
+  styleUrl: './image-box.component.css',
 })
 export class ImgBoxComponent {
-  @Input() imageBox?: ImageBox;
+  @Select(ImageState.getImage)
+  image$!: Observable<Image | undefined>;
 }

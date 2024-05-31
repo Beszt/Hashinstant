@@ -15,7 +15,7 @@
 }
 
 .btn-container {
-    @apply py-5 space-x-4
+    @apply py-5 space-x-4 space-y-4
 }
 
 .btn-primary {
@@ -24,8 +24,4 @@
 
 .btn-secondary {
     @apply py-3 px-5 bg-slate-500 transition ease-in-out delay-100 hover:bg-slate-700 active:outline active:outline-4 active:outline-slate-300  text-white rounded-md
-}
-
-.spinner {
-    @apply mb-3 w-8 h-8 text-gray-200 animate-spin dark:text-gray-600 fill-blue-600
 }

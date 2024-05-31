@@ -1,8 +1,12 @@
-import { Component, Inject } from '@angular/core';
+import { Component } from '@angular/core';
 import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ImgBoxComponent } from './image-box/image-box.component';
-import { ImageBox } from './shared/models/ImageBox';
+import { Image } from './shared/models/Image';
+import { Select, Store } from '@ngxs/store';
+import { GenerateHashtags, SetImage } from './shared/actions/image.actions';
+import { Observable, delay } from 'rxjs';
+import { ImageState } from './shared/state/image.state';
 
 @Component({
   selector: 'app-root',
@@ -12,43 +16,28 @@ import { ImageBox } from './shared/models/ImageBox';
   styleUrl: './app.component.css',
 })
 export class AppComponent {
-  uploadedImage: ImageBox | undefined;
+  @Select(ImageState.getImage)
+  image$!: Observable<Image | undefined>;
+
+  constructor(private readonly store: Store) {}
 
   onUploadInputChange(event: Event): void {
-    const loader: HTMLElement | null = document.getElementById('loader');
-
-    if (loader == null) {
-      return;
-    }
-
     const target = event.target as HTMLInputElement;
     const file = target.files?.[0];
 
     if (file) {
-      const reader = new FileReader();
-      reader.onload = (e: ProgressEvent<FileReader>) => {
-        loader.classList.remove('hidden');
-
-        setTimeout((): void => {
-          if (e?.target == null) {
-            return;
-          }
-
-          this.uploadedImage = {
-            ImagePath: e.target.result as string,
-            Hashtags: this.generateHashtags(),
-          };
-          loader.classList.add('hidden');
-        }, 2000);
-      };
-
-      reader.readAsDataURL(file);
+      this.store
+        .dispatch(new SetImage(file))
+        .subscribe(() => {
+          this.store.dispatch(new GenerateHashtags());
+        });
     }
   }
 
   onCopyHashtagsButtonClick(): void {
-    const hashtagsText = this.uploadedImage?.Hashtags;
-    
+    const hashtagsText = this.store.selectSnapshot(ImageState.getImage)
+      .Hashtags as string;
+
     navigator.clipboard.writeText(hashtagsText as string).then(
       (): void => {
         alert('Hashtags coppied to clipboard!');
@@ -57,22 +46,5 @@ export class AppComponent {
         alert('Error on copying hashtags: ' + err);
       }
     );
-  }
-
-  private generateHashtags(): string {
-    const exampleHashtags = [
-      '#nature',
-      '#photo',
-      '#instagood',
-      '#picoftheday',
-      '#love',
-      '#beautiful',
-      '#happy',
-      '#followme',
-      '#art',
-      '#selfie',
-    ];
-
-    return exampleHashtags.join(' ');
   }
 }
