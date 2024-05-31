@@ -14,5 +14,8 @@ import { Observable } from 'rxjs';
 })
 export class ImgBoxComponent {
   @Select(ImageState.getImage)
-  image$!: Observable<Image | undefined>;
+  image$!: Observable<String | undefined>;
+
+  @Select(ImageState.getHashtags)
+  hashtags$!: Observable<String | undefined>;
 }

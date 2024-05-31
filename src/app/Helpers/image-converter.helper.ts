@@ -1,7 +1,8 @@
 import { Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 
 export class ImageConverter {
-  private static readonly maxLongSide = 500;
+  private static readonly maxLongSide = environment.pictureLongerSideSize;
 
   public static convertFileToBase64Image(
     file: File,

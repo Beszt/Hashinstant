@@ -3,6 +3,7 @@ import { GenerateHashtags, SetImage } from '../actions/image.actions';
 import { Image } from '../models/Image';
 import { Injectable } from '@angular/core';
 import { ImageConverter } from '../../Helpers/image-converter.helper';
+import { OpenAiService } from '../services/open-ai.service';
 
 @State<Image | undefined>({
   name: 'image',
@@ -13,9 +14,15 @@ import { ImageConverter } from '../../Helpers/image-converter.helper';
 })
 @Injectable()
 export class ImageState {
+  constructor(private readonly openAiService: OpenAiService) {}
   @Selector()
   static getImage(state: Image) {
-    return state;
+    return state.Path;
+  }
+
+  @Selector()
+  static getHashtags(state: Image) {
+    return state.Hashtags;
   }
 
   @Action(SetImage)
@@ -31,23 +38,19 @@ export class ImageState {
 
   @Action(GenerateHashtags)
   generateHashtags(ctx: StateContext<Image>, action: GenerateHashtags) {
-    const result = [
-      '#nature',
-      '#photo',
-      '#instagood',
-      '#picoftheday',
-      '#love',
-      '#beautiful',
-      '#happy',
-      '#followme',
-      '#art',
-      '#selfie',
-    ].join(' ');
-
     const state = ctx.getState();
-    ctx.setState({
-      ...state,
-      Hashtags: result,
-    });
+
+    if (state.Path == undefined) {
+      return;
+    }
+
+    this.openAiService
+      .PostImageAndGetMessage(state.Path)
+      .subscribe((hashtags) => {
+        ctx.setState({
+          ...state,
+          Hashtags: hashtags,
+        });
+      });
   }
 }
