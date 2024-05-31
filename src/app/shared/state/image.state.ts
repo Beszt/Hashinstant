@@ -32,6 +32,7 @@ export class ImageState {
       ctx.setState({
         ...state,
         Src: img,
+        Hashtags: undefined
       });
     });
   }
