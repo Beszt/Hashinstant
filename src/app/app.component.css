@@ -15,13 +15,13 @@
 }
 
 .btn-container {
-    @apply py-5 space-x-4 space-y-4
+    @apply my-3
 }
 
 .btn-primary {
-    @apply py-3 px-5 bg-blue-500 transition ease-in-out delay-100 hover:bg-blue-700 active:outline active:outline-4 active:outline-blue-300 text-white rounded-md
+    @apply m-2 py-3 px-5 bg-blue-500 transition ease-in-out delay-100 shadow-md hover:bg-blue-700 active:outline active:outline-4 active:outline-blue-300 text-white rounded-md
 }
 
 .btn-secondary {
-    @apply py-3 px-5 bg-slate-500 transition ease-in-out delay-100 hover:bg-slate-700 active:outline active:outline-4 active:outline-slate-300  text-white rounded-md
+    @apply py-3 px-5 bg-slate-500 transition ease-in-out delay-100 shadow-md hover:bg-slate-700 active:outline active:outline-4 active:outline-slate-300  text-white rounded-md
 }
