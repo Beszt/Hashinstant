@@ -12,13 +12,16 @@ export class OpenAiService {
   private readonly apiModel = environment.Api.Model;
   private readonly apiMaxTokens = environment.Api.maxTokens;
   private readonly promptSocialMedia = environment.Prompt.TargetSocialMedia;
+  private readonly promptLanguage = environment.Prompt.Language;
   private readonly promptMaximumHashtagsCount =
     environment.Prompt.MaximumHashtagsCount;
   private readonly HashtagsDeilimiter = environment.Prompt.HashtagsDelimiter;
 
   constructor(private http: HttpClient) {}
 
-  PostImageAndGetMessage(imagePngBase64: string): Observable<string | undefined> {
+  PostImageAndGetMessage(
+    imagePngBase64: string
+  ): Observable<string | undefined> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.apiToken}`,
@@ -35,8 +38,9 @@ export class OpenAiService {
               text:
                 'Write best' +
                 this.promptSocialMedia +
-                ' hashtags for this picture. ' +
-                'Only hashtags, Maximum ' +
+                ' hashtags for this picture in ' +
+                this.promptLanguage +
+                '. Only hashtags, Maximum ' +
                 this.promptMaximumHashtagsCount +
                 ', separated by "' +
                 this.HashtagsDeilimiter +

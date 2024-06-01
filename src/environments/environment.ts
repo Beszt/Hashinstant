@@ -7,6 +7,7 @@ export const environment = {
   },
   Prompt: {
     TargetSocialMedia: 'Instagram',
+    Language: 'English',
     MaximumHashtagsCount: 20,
     HashtagsDelimiter: ' ',
   },

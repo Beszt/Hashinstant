@@ -80,6 +80,6 @@ export class AppComponent {
   }
 
   private validateHashtags(hashtags: string | undefined): boolean {
-    return !!hashtags && !hashtags.toLocaleLowerCase().includes('error');
+    return !!hashtags && !hashtags.toLowerCase().startsWith('error');
   }
 }
