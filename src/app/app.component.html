@@ -5,7 +5,7 @@
   <div class="btn-container">
       <input #imageInput (change)="onUploadInputChange($event) "type="file" accept="image/*" [hidden]="true">
       <button (click)="imageInput.click()" class="btn-primary"> Upload image</button>
-      <button class="btn-secondary" (click)="onCopyHashtagsButtonClick()" *ngIf="(imageHashtags$ | async) != undefined">Copy hashtags</button>
+      <button class="btn-secondary" (click)="onCopyHashtagsButtonClick()" *ngIf="(imageHashtagsIsValid$| async) != false">Copy hashtags</button>
   </div>
   <app-image-box></app-image-box>
 </section>

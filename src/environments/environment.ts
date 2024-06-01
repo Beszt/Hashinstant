@@ -3,8 +3,12 @@ export const environment = {
     Token: '',
     Uri: 'https://api.openai.com/v1/chat/completions',
     Model: 'gpt-4o',
-    Question: 'Write Instagram Hastags for this photo',
     maxTokens: 300,
+  },
+  Prompt: {
+    TargetSocialMedia: 'Instagram',
+    MaximumHashtagsCount: 20,
+    HashtagsDelimiter: ' ',
   },
   pictureLongerSideSize: 512,
 };

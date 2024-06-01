@@ -3,11 +3,11 @@
 @tailwind utilities;
 
 .img-box {
-    @apply flex-col max-w-lg p-3 mb-3 bg-white outline outline-1 outline-neutral-200 rounded-sm shadow-xl
+    @apply flex flex-col max-w-lg p-3 mb-3 bg-white outline outline-1 outline-neutral-200 rounded-sm shadow-xl
 }
 
 .paragraph {
-    @apply p-3 font-light
+    @apply p-2 mt-1 font-light 
 }
 
 .spinner {

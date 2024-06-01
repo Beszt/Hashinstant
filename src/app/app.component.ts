@@ -4,7 +4,7 @@ import { CommonModule } from '@angular/common';
 import { ImgBoxComponent } from './image-box/image-box.component';
 import { Select, Store } from '@ngxs/store';
 import { GenerateHashtags, SetImage } from './shared/actions/image.actions';
-import { Observable, Subscription } from 'rxjs';
+import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
 import { ImageState } from './shared/state/image.state';
 
 @Component({
@@ -19,10 +19,17 @@ export class AppComponent {
   @Select(ImageState.getImage)
   imageSrc$!: Observable<string | undefined>;
 
-  @Select(ImageState.getHashtags)
-  imageHashtags$!: Observable<string | undefined>;
+  get imageHashtagsIsValid$(): BehaviorSubject<boolean> {
+    return this._imageHashtagsIsValid;
+  }
 
-  private subscriptions: Subscription = new Subscription();
+  @Select(ImageState.getHashtags)
+  private readonly imageHashtags$!: Observable<string | undefined>;
+
+  private _imageHashtagsIsValid: BehaviorSubject<boolean> =
+    new BehaviorSubject<boolean>(false);
+
+  private readonly subscriptions: Subscription = new Subscription();
 
   constructor(private readonly store: Store) {}
 
@@ -33,6 +40,14 @@ export class AppComponent {
           this.store.dispatch(new GenerateHashtags());
         }
       })
+    );
+
+    this.subscriptions.add(
+      this.imageHashtags$
+        .pipe(map((hashtags) => this.validateHashtags(hashtags)))
+        .subscribe((isValid) => {
+          this._imageHashtagsIsValid.next(isValid);
+        })
     );
   }
 
@@ -62,5 +77,9 @@ export class AppComponent {
 
   ngOnDestroy(): void {
     this.subscriptions.unsubscribe();
+  }
+
+  private validateHashtags(hashtags: string | undefined): boolean {
+    return !!hashtags && !hashtags.toLocaleLowerCase().includes('error');
   }
 }
