@@ -7,6 +7,7 @@ import { NgxsModule } from '@ngxs/store';
 import { ImageState } from './shared/state/image.state';
 import { OpenAiService } from './shared/services/open-ai.service';
 import { provideHttpClient, withFetch, withInterceptorsFromDi } from '@angular/common/http';
+import { LanguageService } from './shared/services/language.service';
 
 export const appConfig: ApplicationConfig = {
   providers: [
@@ -15,6 +16,7 @@ export const appConfig: ApplicationConfig = {
     provideRouter(routes),
     provideClientHydration(),
     provideHttpClient(withInterceptorsFromDi(), withFetch()),
+    LanguageService,
     OpenAiService
   ],
 };

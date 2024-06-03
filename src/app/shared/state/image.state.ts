@@ -1,5 +1,5 @@
 import { State, Action, StateContext, Selector } from '@ngxs/store';
-import { GenerateHashtags, SetImage } from '../actions/image.actions';
+import { GenerateHashtags, SetHashtagsLanguage, SetImage } from '../actions/image.actions';
 import { Image } from '../models/Image';
 import { Injectable } from '@angular/core';
 import { ImageConverter } from '../../Helpers/image-converter.helper';
@@ -10,24 +10,30 @@ import { OpenAiService } from '../services/open-ai.service';
   defaults: {
     Src: undefined,
     Hashtags: undefined,
+    HashtagsLanguage: undefined,
   },
 })
 @Injectable()
 export class ImageState {
   constructor(private readonly openAiService: OpenAiService) {}
   @Selector()
-  static getImage(state: Image) {
+  static Image(state: Image) {
     return state.Src;
   }
 
   @Selector()
-  static getHashtags(state: Image) {
+  static Hashtags(state: Image) {
+    return state.Hashtags;
+  }
+
+  @Selector()
+  static hashtagsLanguage(state: Image) {
     return state.Hashtags;
   }
 
   @Action(SetImage)
   setImage(ctx: StateContext<Image>, action: SetImage) {
-    ImageConverter.convertFileToBase64Image(action.payload).subscribe((img) => {
+    ImageConverter.convertFileToBase64Image(action.payload.File).subscribe((img) => {
       const state = ctx.getState();
       ctx.setState({
         ...state,
@@ -46,12 +52,25 @@ export class ImageState {
     }
 
     this.openAiService
-      .PostImageAndGetMessage(state.Src)
+      .PostImageAndGetMessage(state)
       .subscribe((hashtags) => {
         ctx.setState({
           ...state,
           Hashtags: hashtags,
         });
+      });
+  }
+
+  @Action(SetHashtagsLanguage)
+  setLanguage(ctx: StateContext<Image>, action: SetHashtagsLanguage) {
+    if (action.payload.Language == undefined) {
+      return;
+    }
+
+    const state = ctx.getState();
+      ctx.setState({
+        ...state,
+        HashtagsLanguage: action.payload.Language
       });
   }
 }

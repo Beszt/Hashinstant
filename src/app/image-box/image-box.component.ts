@@ -14,9 +14,9 @@ import { Observable } from 'rxjs';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class ImgBoxComponent {
-  @Select(ImageState.getImage)
+  @Select(ImageState.Image)
   imageSrc$!: Observable<String | undefined>;
 
-  @Select(ImageState.getHashtags)
+  @Select(ImageState.Hashtags)
   Imagehashtags$!: Observable<String | undefined>;
 }

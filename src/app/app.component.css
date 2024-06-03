@@ -3,29 +3,45 @@
 @tailwind utilities;
 
 .section {
-    @apply flex flex-col min-h-screen justify-center items-center text-center
+  @apply flex flex-col min-h-screen justify-center items-center text-center;
 }
 
 .header {
-    @apply text-4xl text-blue-500 font-sans font-medium tracking-widest
+  @apply text-4xl text-blue-500 font-sans font-medium tracking-widest;
 }
 
 .header-ai {
-    @apply px-1.5 border-2 border-dashed border-blue-400 rounded-lg align-middle
+  @apply px-1.5 border-2 border-dashed border-blue-400 rounded-lg align-middle;
 }
 
 .paragraph {
-    @apply p-2.5 font-light
+  @apply p-2.5 font-light;
+}
+
+.paragraph-info {
+  @apply p-0.5 px-1 font-extralight text-sm text-slate-800 border-2 border-dashed border-blue-100 rounded-2xl;
 }
 
 .btn-container {
-    @apply my-2.5
+  @apply my-2.5;
 }
 
 .btn-primary {
-    @apply m-2 py-3 px-5 bg-blue-500 transition ease-in-out delay-100 shadow-md hover:bg-blue-700 active:outline active:outline-4 active:outline-blue-300 text-white rounded-md
+  @apply m-2 py-3 px-5 bg-blue-500 transition ease-in-out delay-100 shadow-md hover:bg-blue-700 active:outline active:outline-4 active:outline-blue-300 text-white rounded-md;
 }
 
 .btn-secondary {
-    @apply m-2 py-3 px-5 bg-slate-500 transition ease-in-out delay-100 shadow-md hover:bg-slate-700 active:outline active:outline-4 active:outline-slate-300  text-white rounded-md
+  @apply m-2 py-3 px-5 bg-slate-500 transition ease-in-out delay-100 shadow-md hover:bg-slate-700 active:outline active:outline-4 active:outline-slate-300  text-white rounded-md;
+}
+
+.label-switch-language {
+  @apply h-2 w-6 relative inline-flex cursor-pointer items-center;
+}
+
+.btn-switch-language {
+  @apply h-2 w-6 rounded-full border bg-slate-200 after:absolute after:-top-1 after:left-0 after:h-4 after:w-4 after:rounded-full after:border after:border-gray-300 after:bg-slate-50 after:transition-all after:content-[''] peer-checked:bg-blue-500 peer-checked:after:translate-x-2 peer-focus:ring-blue-500;
+}
+
+.input-switch-language {
+  @apply sr-only;
 }

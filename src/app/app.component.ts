@@ -3,9 +3,15 @@ import { RouterOutlet } from '@angular/router';
 import { CommonModule } from '@angular/common';
 import { ImgBoxComponent } from './image-box/image-box.component';
 import { Select, Store } from '@ngxs/store';
-import { GenerateHashtags, SetImage } from './shared/actions/image.actions';
+import {
+  GenerateHashtags,
+  SetHashtagsLanguage,
+  SetImage,
+} from './shared/actions/image.actions';
 import { BehaviorSubject, Observable, Subscription, map } from 'rxjs';
 import { ImageState } from './shared/state/image.state';
+import { environment } from '../environments/environment';
+import { LanguageService } from './shared/services/language.service';
 
 @Component({
   selector: 'app-root',
@@ -16,22 +22,32 @@ import { ImageState } from './shared/state/image.state';
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class AppComponent {
-  @Select(ImageState.getImage)
-  imageSrc$!: Observable<string | undefined>;
+  @Select(ImageState.Image)
+  readonly imageSrc$!: Observable<string | undefined>;
+
+  @Select(ImageState.hashtagsLanguage)
+  readonly hashtagsLanguage$!: Observable<string | undefined>;
+
+  @Select(ImageState.Hashtags)
+  private readonly imageHashtags$!: Observable<string | undefined>;
 
   get imageHashtagsIsValid$(): BehaviorSubject<boolean> {
     return this._imageHashtagsIsValid;
   }
-
-  @Select(ImageState.getHashtags)
-  private readonly imageHashtags$!: Observable<string | undefined>;
 
   private _imageHashtagsIsValid: BehaviorSubject<boolean> =
     new BehaviorSubject<boolean>(false);
 
   private readonly subscriptions: Subscription = new Subscription();
 
-  constructor(private readonly store: Store) {}
+  get browserLanguage(): string {
+    return this.languageService.getBrowserLanguage();
+  }
+
+  constructor(
+    private readonly store: Store,
+    private readonly languageService: LanguageService
+  ) {}
 
   ngOnInit(): void {
     this.subscriptions.add(
@@ -56,13 +72,13 @@ export class AppComponent {
     const file = target.files?.[0];
 
     if (file) {
-      this.store.dispatch(new SetImage(file));
+      this.store.dispatch(new SetImage({ File: file }));
     }
   }
 
   onCopyHashtagsButtonClick(): void {
     const hashtagsText = this.store.selectSnapshot(
-      ImageState.getHashtags
+      ImageState.Hashtags
     ) as string;
 
     navigator.clipboard.writeText(hashtagsText as string).then(
@@ -72,6 +88,19 @@ export class AppComponent {
       (err: string): void => {
         alert('Error on copying hashtags: ' + err);
       }
+    );
+  }
+
+  onLanguageInputClick(event: Event) {
+    const target = event.target as HTMLInputElement;
+    const isDefaultLanguage = !target.checked;
+
+    this.store.dispatch(
+      new SetHashtagsLanguage({
+        Language: isDefaultLanguage
+          ? environment.Prompt.DefaultLanguage
+          : this.languageService.getBrowserLanguage(),
+      })
     );
   }
 

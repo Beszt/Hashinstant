@@ -4,6 +4,7 @@ import { Observable, catchError, map, of, throwError } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { OpenAiVisionRequest } from './models/open-ai-vision-request';
 import { OpenAiVisionResponse } from './models/open-ai-vision-response';
+import { Image } from '../models/Image';
 
 @Injectable()
 export class OpenAiService {
@@ -12,20 +13,23 @@ export class OpenAiService {
   private readonly apiModel = environment.Api.Model;
   private readonly apiMaxTokens = environment.Api.maxTokens;
   private readonly promptSocialMedia = environment.Prompt.TargetSocialMedia;
-  private readonly promptLanguage = environment.Prompt.Language;
+  private readonly promptDefaultLanguage = environment.Prompt.DefaultLanguage;
   private readonly promptMaximumHashtagsCount =
     environment.Prompt.MaximumHashtagsCount;
   private readonly HashtagsDeilimiter = environment.Prompt.HashtagsDelimiter;
 
   constructor(private http: HttpClient) {}
 
-  PostImageAndGetMessage(
-    imagePngBase64: string
-  ): Observable<string | undefined> {
+  PostImageAndGetMessage(image: Image): Observable<string | undefined> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.apiToken}`,
     });
+
+    const hashtagsLanguage =
+      image.HashtagsLanguage != undefined
+        ? (image.HashtagsLanguage as string)
+        : this.promptDefaultLanguage;
 
     const requestBody: OpenAiVisionRequest = {
       model: this.apiModel,
@@ -39,7 +43,7 @@ export class OpenAiService {
                 'Write best' +
                 this.promptSocialMedia +
                 ' hashtags for this picture in ' +
-                this.promptLanguage +
+                hashtagsLanguage +
                 '. Only hashtags, Maximum ' +
                 this.promptMaximumHashtagsCount +
                 ', separated by "' +
@@ -49,7 +53,7 @@ export class OpenAiService {
             {
               type: 'image_url',
               image_url: {
-                url: imagePngBase64,
+                url: image.Src as string,
               },
             },
           ],

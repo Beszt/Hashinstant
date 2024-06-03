@@ -1,11 +1,18 @@
 <section class="section">
   <p class="header">Hashtags <span class="header-ai">AI</span> Generator</p>
   <p class="paragraph">Upload image and generate the best hashtags for your photo!</p>
+  <p class="paragraph-info"> Generate hashtags in {{ browserLanguage }} language
+    <label class="label-switch-language">
+      <input [value]="hashtagsLanguage$ | async" (change)="onLanguageInputClick($event)" type="checkbox" class="peer input-switch-language" />
+      <label for="switch" class="hidden"></label>
+      <div class="peer btn-switch-language"></div>
+    </label>
+  </p>
 
   <div class="btn-container">
       <input #imageInput (change)="onUploadInputChange($event) "type="file" accept="image/*" [hidden]="true">
       <button (click)="imageInput.click()" class="btn-primary"> Upload image</button>
-      <button class="btn-secondary" (click)="onCopyHashtagsButtonClick()" *ngIf="(imageHashtagsIsValid$| async) != false">Copy hashtags</button>
+      <button class="btn-secondary" (click)="onCopyHashtagsButtonClick()" *ngIf="(imageHashtagsIsValid$| async) != false">Copy hashtags</button>   
   </div>
   <app-image-box></app-image-box>
 </section>
