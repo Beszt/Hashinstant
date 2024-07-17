@@ -52,7 +52,7 @@ export class ImageState {
     }
 
     this.openAiService
-      .PostImageAndGetMessage(state)
+      .PostImageAndGetHashtags(state)
       .subscribe((hashtags) => {
         ctx.setState({
           ...state,

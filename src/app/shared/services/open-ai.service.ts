@@ -11,7 +11,7 @@ export class OpenAiService {
   private readonly apiUrl: string = environment.Api.Uri;
   private readonly apiToken = environment.Api.Token;
   private readonly apiModel = environment.Api.Model;
-  private readonly apiMaxTokens = environment.Api.maxTokens;
+  private readonly apiMaxTokens = environment.Api.MaxTokens;
   private readonly promptSocialMedia = environment.Prompt.TargetSocialMedia;
   private readonly promptDefaultLanguage = environment.Prompt.DefaultLanguage;
   private readonly promptMaximumHashtagsCount =
@@ -20,7 +20,7 @@ export class OpenAiService {
 
   constructor(private http: HttpClient) {}
 
-  PostImageAndGetMessage(image: Image): Observable<string | undefined> {
+  PostImageAndGetHashtags(image: Image): Observable<string | undefined> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json',
       Authorization: `Bearer ${this.apiToken}`,
@@ -65,10 +65,22 @@ export class OpenAiService {
     return this.http
       .post<OpenAiVisionResponse>(this.apiUrl, requestBody, { headers })
       .pipe(
-        map((x) => x.choices[0].message.content),
+        map((x) => this.refineHashtags(x.choices[0].message.content)),
         catchError(() => {
           return of('ERROR: Communication with API failed');
         })
       );
+  }
+
+  private refineHashtags(content: string): string {
+    const hashtagRegex = /#[^\s#]+/g;
+    const hashtags = content.match(hashtagRegex) || [];
+    const validHashtags = hashtags.filter(tag => /^#[a-zA-Z#]+$/.test(tag)).map(tag => tag.toLowerCase());
+    const uniqueHashtags = Array.from(new Set(validHashtags));
+
+    const randomIndex = Math.floor(Math.random() * (uniqueHashtags.length + 1));
+    uniqueHashtags.splice(randomIndex, 0, '#' + environment.AppName.toLowerCase());
+
+    return uniqueHashtags.join(' ');
   }
 }
