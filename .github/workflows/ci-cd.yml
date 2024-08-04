@@ -1,0 +1,53 @@
+name: CI/CD Pipeline
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  build-and-deploy:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Update environment.ts
+        env:
+          API_TOKEN: ${{ secrets.API_TOKEN }}
+        run: |
+          sed -i "s|Token: '',|Token: '${{ secrets.API_TOKEN }}',|" src/environments/environment.ts
+
+      - name: Run tests
+        run: npm test
+        env:
+          CI: true
+
+      - name: Build Angular project
+        run: npm run build -- --configuration production
+
+      - name: Deploy via SFTP
+        env:
+          SFTP_HOST: ${{ secrets.SFTP_HOST }}
+          SFTP_PORT: ${{ secrets.SFTP_PORT }}
+          SFTP_USERNAME: ${{ secrets.SFTP_USERNAME }}
+          SFTP_PASSWORD: ${{ secrets.SFTP_PASSWORD }}
+        run: |
+          echo "Connecting to SFTP server..."
+          lftp -c "
+            open -u $SFTP_USERNAME,$SFTP_PASSWORD -p $SFTP_PORT $SFTP_HOST;
+            rm -r *;
+            mirror -R ./dist/hashinstant/browser /;
+          "
