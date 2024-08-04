@@ -46,5 +46,5 @@ jobs:
           username: ${{ secrets.FTP_USERNAME }}
           password: ${{ secrets.FTP_PASSWORD }}
           local_path: './dist/hashinstant/browser/*'
-          remote_path: '/'
+          remote_path: '/hashinstant'
           sftp_only: true
