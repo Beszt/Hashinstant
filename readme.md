@@ -1,14 +1,15 @@
 # Hashinstant
 Simple but powerful (powered by OpenAI) hashtags generator for Instagram images / photos.
 
-Live demo is available here [Hashinstant](http://hashinstant.obisoft.pl).
+Project site is available here [Hashinstant](http://hashinstant.obisoft.pl).
 
 ## Technology stack
 - Angular 18 (TypeScript)
 - NGXS (Store)
 - RxJS (Reactive)
 - Tailwind (CSS Styling)
-- OpenAI API
+- OpenAI API (GPT-4o model)
+- GitHub Actions (CI/CD)
 
 ## Installation
 1. Install newest **Node.JS**
