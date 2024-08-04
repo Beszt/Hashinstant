@@ -38,9 +38,6 @@ jobs:
       - name: Build Angular project
         run: npm run build -- --configuration production
 
-      - name: Install lftp
-        run: sudo apt-get install -y lftp
-
       - name: Deploy via SFTP
         uses: wlixcc/SFTP-Deploy-Action@v1.2.4
         with:
