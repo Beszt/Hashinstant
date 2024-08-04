@@ -31,7 +31,7 @@ jobs:
           sed -i "s|Token: '',|Token: '${{ secrets.API_TOKEN }}',|" src/environments/environment.ts
 
       - name: Run tests
-        run: npm test
+        run: npm test -- --watch=false --browsers=ChromeHeadless
         env:
           CI: true
 
